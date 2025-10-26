@@ -19,12 +19,18 @@ An AI-powered Flask web application that detects fake news content and verifies 
 ## 🧩 Project Structure
 project/
 │
-├── app.py # Flask backend with routes and model logic
-├── register_image.py # Utility to add known faces for matching
-├── init_db.py # Creates logs.db file
-├── index.html # Frontend interface
-├── embeddings/ # Stores reference image embeddings
-└── logs.db # Log database (auto-generated)
+├── app.py 
+# Flask backend with routes and model logic
+├── register_image.py 
+# Utility to add known faces for matching
+├── init_db.py 
+# Creates logs.db file
+├── index.html 
+# Frontend interface
+├── embeddings/ 
+# Stores reference image embeddings
+└── logs.db 
+# Log database (auto-generated)
 
 ---
 
@@ -33,12 +39,15 @@ project/
 ### 1. Clone this repository
 
 git clone https://github.com/M-Srivatsav999/Fake-News-Detection-.git
+
 cd fake-news-detector
 
 ### 2. Create environment
 
 python -m venv venv
+
 venv/Scripts/activate # Windows
+
 source venv/bin/activate # macOS/Linux
 
 ### 3. Install dependencies
@@ -63,6 +72,7 @@ pip install -r requirements.txt
 python init_db.py
 
 ### Register a reference image (optional)
+
 python register_image.py
 
 ### Start the Flask server
