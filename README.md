@@ -32,7 +32,7 @@ project/
 
 ### 1. Clone this repository
 
-git clone https://github.com/your-username/fake-news-detector.git
+git clone https://github.com/M-Srivatsav999/Fake-News-Detection-.git
 cd fake-news-detector
 
 ### 2. Create environment
