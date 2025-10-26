@@ -1,0 +1,13 @@
+Flask==3.0.0
+flask-cors==4.0.0
+transformers==4.38.0
+torch==2.2.0
+torchvision==0.17.0
+sentence-transformers==2.2.2
+keybert==0.7.0
+requests==2.31.0
+Pillow==10.0.0
+feedparser==6.0.11
+numpy==1.26.0
+jsPDF==2.5.1
+tailwindcss==3.3.3
