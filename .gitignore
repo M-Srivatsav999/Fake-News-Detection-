@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+embeddings/
+logs.db
+.env
