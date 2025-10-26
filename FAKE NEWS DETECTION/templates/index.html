@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+        const { jsPDF } = window.jspdf;
+
+        function App() {
+            const [text, setText] = useState('');
+            const [image, setImage] = useState(null);
+            const [result, setResult] = useState(null);
+            const [error, setError] = useState('');
+
+            const handleTextSubmit = async () => {
+                try {
+                    setError('');
+                    if (!text.trim()) {
+                        setError('Please enter text to analyze');
+                        return;
+                    }
+                    const response = await axios.post('http://localhost:5000/analyze-text', { text });
+                    setResult(response.data);
+                } catch (error) {
+                    setError('Error analyzing text: ' + (error.response?.data?.error || error.message));
+                }
+            };
+
+            const handleImageUpload = async () => {
+                try {
+                    setError('');
+                    if (!image) {
+                        setError('Please select an image to analyze');
+                        return;
+                    }
+                    const formData = new FormData();
+                    formData.append('image', image);
+                    const response = await axios.post('http://localhost:5000/analyze-image', formData);
+                    setResult(response.data);
+                } catch (error) {
+                    setError('Error analyzing image: ' + (error.response?.data?.error || error.message));
+                }
+            };
+
+            const generatePDF = () => {
+                const doc = new jsPDF();
+                doc.text(`Result: ${result.label || 'N/A'} (Score: ${result.score || result.distance || 'N/A'})`, 10, 20);
+                doc.text(`Sources: ${result.sources?.join(', ') || 'N/A'}`, 10, 30);
+                if (result.metadata) {
+                    doc.text(`Metadata: ${JSON.stringify(result.metadata, null, 2)}`, 10, 40);
+                }
+                doc.save('fake_news_report.pdf');
+            };
+
+            return (
+                <div className="bg-gray-800 text-blue-400 p-4 min-h-screen">
+                    <h1 className="text-3xl font-bold mb-4 text-center">Fake News Detector</h1>
+
+                    {error && <p className="text-red-500 mb-4">{error}</p>}
+
+                    <div className="mb-4">
+                        <textarea
+                            className="w-full p-3 border border-blue-500 bg-gray-700 text-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            rows="4"
+                            placeholder="Enter news text..."
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                        />
+                        <button
+                            className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded w-full"
+                            onClick={handleTextSubmit}
+                        >
+                            Analyze Text
+                        </button>
+                    </div>
+
+                    <div className="mb-4">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            className="mb-2 text-blue-300"
+                            onChange={(e) => setImage(e.target.files[0])}
+                        />
+                        <button
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded w-full"
+                            onClick={handleImageUpload}
+                        >
+                            Analyze Image
+                        </button>
+                    </div>
+
+                    {result && (
+                        <div className="bg-gray-700 p-4 rounded mt-4">
+                            <p className="font-bold">Result: {result.label || 'N/A'} (Score: {result.score || result.distance || 'N/A'})</p>
+                            <p>Sources: {result.sources?.join(', ') || 'N/A'}</p>
+                            {result.metadata && (
+                                <pre className="text-sm mt-2">Metadata: {JSON.stringify(result.metadata, null, 2)}</pre>
+                            )}
+                            <button
+                                className="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 rounded w-full"
+                                onClick={generatePDF}
+                            >
+                                Download PDF
+                            </button>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>
