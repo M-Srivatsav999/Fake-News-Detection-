@@ -19,16 +19,16 @@ An AI-powered Flask web application that detects fake news content and verifies 
 ## 🧩 Project Structure
 project/
 │
-├── app.py 
-# Flask backend with routes and model logic
-├── register_image.py 
-# Utility to add known faces for matching
-├── init_db.py 
-# Creates logs.db file
-├── index.html 
-# Frontend interface
-├── embeddings/ 
-# Stores reference image embeddings
+├── app.py # Flask backend with routes and model logic
+
+├── register_image.py # Utility to add known faces for matching
+
+├── init_db.py # Creates logs.db file
+
+├── index.html # Frontend interface
+
+├── embeddings/ # Stores reference image embeddings
+
 └── logs.db 
 # Log database (auto-generated)
 
