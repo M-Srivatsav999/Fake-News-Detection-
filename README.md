@@ -105,8 +105,8 @@ See the `requirements.txt` file below for all dependencies.
 
 **Mukka Srivatsav**  
 B.Tech student, Hyderabad, India  
-Email: [Add your email here]  
-GitHub: [https://github.com/your-username](https://github.com/your-username)
+Email: srivatsavmukka@gmail.com  
+GitHub: https://github.com/M-Srivatsav999 
 
 ---
 
